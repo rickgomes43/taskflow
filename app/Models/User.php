@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -77,5 +78,42 @@ class User extends Authenticatable
     public function scopeClients($query)
     {
         return $query->where('role', 'cliente');
+    }
+
+    // Project relationships
+    public function ownedProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'owner_id');
+    }
+
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
+
+    public function createdTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'created_by');
+    }
+
+    public function timeEntries(): HasMany
+    {
+        return $this->hasMany(TimeEntry::class);
+    }
+
+    // Helper methods
+    public function getTotalHoursThisWeek()
+    {
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        return $this->timeEntries()
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->sum('duration_minutes') / 60;
+    }
+
+    public function getActiveProjects()
+    {
+        return $this->ownedProjects()->where('status', 'active');
     }
 }
