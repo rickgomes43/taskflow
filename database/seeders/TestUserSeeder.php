@@ -14,19 +14,43 @@ class TestUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@taskflow.com',
-            'password' => Hash::make('password123'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@taskflow.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+            ]
+        );
 
-        User::create([
-            'name' => 'Test User',
-            'email' => 'user@taskflow.com',
-            'password' => Hash::make('password123'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'colaborador@taskflow.com'],
+            [
+                'name' => 'Colaborador User',
+                'password' => Hash::make('password123'),
+                'role' => 'colaborador',
+            ]
+        );
 
-        // Create additional test users
-        User::factory(5)->create();
+        User::firstOrCreate(
+            ['email' => 'cliente@taskflow.com'],
+            [
+                'name' => 'Cliente User',
+                'password' => Hash::make('password123'),
+                'role' => 'cliente',
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'user@taskflow.com'],
+            [
+                'name' => 'Test User',
+                'password' => Hash::make('password123'),
+                'role' => 'colaborador', // default role
+            ]
+        );
+
+        // Update existing users to have proper roles if they don't have one
+        User::whereNull('role')->orWhere('role', '')->update(['role' => 'colaborador']);
     }
 }

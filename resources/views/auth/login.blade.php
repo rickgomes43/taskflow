@@ -27,6 +27,16 @@
             <form method="POST" action="{{ route('login.store') }}" class="p-6 pt-0 space-y-4" id="loginForm">
                 @csrf
 
+                <!-- Success/Status Messages -->
+                @if (session('status'))
+                    <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="font-medium">{{ session('status') }}</span>
+                    </div>
+                @endif
+
                 <!-- Email Field -->
                 <div class="space-y-2">
                     <label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -112,7 +122,7 @@
             <div class="flex items-center p-6 pt-0">
                 <p class="text-sm text-muted-foreground text-center w-full">
                     Não tem uma conta? 
-                    <a href="#" class="text-primary underline-offset-4 hover:underline">
+                    <a href="{{ route('register') }}" class="text-primary underline-offset-4 hover:underline">
                         Cadastre-se
                     </a>
                 </p>

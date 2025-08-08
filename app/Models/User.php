@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,37 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Role helper methods
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCollaborator(): bool
+    {
+        return $this->role === 'colaborador';
+    }
+
+    public function isClient(): bool
+    {
+        return $this->role === 'cliente';
+    }
+
+    // Role scopes
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function scopeCollaborators($query)
+    {
+        return $query->where('role', 'colaborador');
+    }
+
+    public function scopeClients($query)
+    {
+        return $query->where('role', 'cliente');
     }
 }

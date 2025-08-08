@@ -49,6 +49,24 @@
                 </nav>
             @endif
         </header>
+
+        <!-- Session Messages -->
+        @if (session('success'))
+            <div class="w-full lg:max-w-4xl max-w-[335px] mb-6">
+                <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded" role="alert">
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="w-full lg:max-w-4xl max-w-[335px] mb-6">
+                <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded" role="alert">
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            </div>
+        @endif
+
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
